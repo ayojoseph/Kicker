@@ -47,7 +47,83 @@ describe("Campaigns", () => {
     assert.ok(factory.options.address);
     assert.ok(campaign.options.address);
   });
+
+  it("set caller as the manager for campaign", async () => {
+    //we have access to this method because the manager varible in the contract is marked as public.
+    const manager = await campaign.methods.manager().call();
+    assert.equal(accounts[0], manager);
+  });
+
+  it("lets people contribute money and makes them approvers", async () => {
+    //contributes to the campaign
+    await campaign.methods.contribute().send({
+      value: "200",
+      from: accounts[1]
+    });
+    //checking to see if the address is in approvers map after contributing
+    const contributer = await campaign.methods.approvers(accounts[1]).call();
+    assert(contributer);
+  });
+
+  it("requires a minimum contribution", async () => {
+    try {
+      await campaign.methods.contribute().send({
+        value: "5",
+        from: accounts[1]
+      });
+      //if this line of code runs then we know we have a problem,
+      //meaning the send was approved and the minimum was not met
+      assert(false);
+    } catch (err) {
+      assert(err);
+    }
+  });
+
+  it("lets manager to make request", async () => {
+    await campaign.methods
+      .createRequest("Test", "100", accounts[2])
+      .send({ from: accounts[0], gas: "1000000" });
+    const request = await campaign.methods.requests(0).call();
+    assert.equal("Test", request.desc);
+  });
+
+  it("processes requests", async () => {
+    //contributing to the campaign
+    await campaign.methods.contribute().send({
+      from: accounts[0],
+      value: web3.utils.toWei("10", "ether")
+    });
+    //manager account is creating a request
+    await campaign.methods
+      .createRequest("Test", web3.utils.toWei("5", "ether"), accounts[1])
+      .send({
+        from: accounts[0],
+        gas: "1000000"
+      });
+    //approving the request from an account other than the manager
+    await campaign.methods.approveRequest("0").send({
+      from: accounts[0],
+      gas: "1000000"
+    });
+    //finalizing the request from the manager account (sending money to reciepient)
+    await campaign.methods.finalizeRequest("0").send({
+      from: accounts[0],
+      gas: "1000000"
+    });
+
+    let balance = await web3.eth.getBalance(accounts[1]);
+    balance = web3.utils.fromWei(balance, "ether");
+    balance = parseFloat(balance);
+    console.log(balance);
+    assert(balance > 104);
+  });
 });
+
+// describe('Campaigns', () => {
+//     it('', () => {
+
+//     });
+// });
 
 //Test template
 // describe('Campaigns', () => {

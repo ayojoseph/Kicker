@@ -66,7 +66,7 @@ contract Campaign {
         requests.push(newRequest);
     }
     
-    function appoveRequest(uint index) public{
+    function approveRequest(uint index) public {
         
         /**Setting the request we want to work with to a local variable.
         Using "storage keyword to word with the actual request stored in memory
