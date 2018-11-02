@@ -11,7 +11,7 @@ contract CampaignFactory {
         deployedCampaigns.push(newCampaign);
     }
     //function that cant be modified and returns an address array of deployed Campaigns
-    function getDeployedcampaigns() public view returns (address[]){
+    function getDeployedcampaigns() public view returns (address[]) {
         return deployedCampaigns;
     }
 }
