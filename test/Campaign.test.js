@@ -1,7 +1,7 @@
 const assert = require("assert");
 const ganache = require("ganache-cli");
 const Web3 = require("web3");
-const web = new Web3(ganache.provider());
+const web3 = new Web3(ganache.provider());
 
 //getting compiled contacts
 const compiledFactory = require("../ethereum/build/CampaignFactory.json");
@@ -19,8 +19,12 @@ beforeEach(async () => {
   /** deploy an instant of factory contract, uses compiled factory,
    * contract contructor part of web3.eth library and pass in compiled
    * factory abi, deploys and sends transaction to network (needs the account and gas to send) **/
+  //   factory = await new web3.eth.Contract(JSON.parse(compiledFactory.interface))
+  //     .deploy({ data: compiledFactory.byteCode })
+  //     .send({ from: accounts[0], gas: "1000000" });
+
   factory = await new web3.eth.Contract(JSON.parse(compiledFactory.interface))
-    .deploy({ data: compiledFactory.byteCode })
+    .deploy({ data: compiledFactory.bytecode })
     .send({ from: accounts[0], gas: "1000000" });
 
   //calling createCampaign fuction from the factory just created
@@ -37,3 +41,17 @@ beforeEach(async () => {
     campaignAddress
   );
 });
+
+describe("Campaigns", () => {
+  it("Deploys a factory and a campaign", () => {
+    assert.ok(factory.options.address);
+    assert.ok(campaign.options.address);
+  });
+});
+
+//Test template
+// describe('Campaigns', () => {
+//     it('', () => {
+
+//     });
+// });
