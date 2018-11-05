@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import factory from "../ethereum/factory";
-import { Card } from "semantic-ui-react";
+import { Card, Button } from "semantic-ui-react";
+import Layout from "../components/Layout";
 
 //getInitialProps, exclusive to NextJS to do initial server side/ or data loading on the server
 class CampaignIndex extends Component {
@@ -25,13 +26,17 @@ class CampaignIndex extends Component {
   render() {
     // return <div>{this.renderCampaigns()}</div>;
     return (
-      <div>
-        <link
-          rel="stylesheet"
-          href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css"
-        />
-        {this.renderCampaigns()}
-      </div>
+      <Layout>
+        <div>
+          <link
+            rel="stylesheet"
+            href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css"
+          />
+          <h3>Open Campaigns</h3>
+          {this.renderCampaigns()}
+          <Button content="Create Campaign" icon="add circle" primary />
+        </div>
+      </Layout>
     );
   }
 }

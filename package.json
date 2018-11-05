@@ -10,6 +10,7 @@
   "author": "Love Joseph",
   "license": "ISC",
   "dependencies": {
+    "cluster": "^0.7.7",
     "fs-extra": "^7.0.0",
     "ganache-cli": "^6.1.8",
     "mocha": "^5.2.0",
