@@ -2,3 +2,5 @@
 node_modules/
 
 \.next/
+
+pages/campaigns/requests/new1\.js
