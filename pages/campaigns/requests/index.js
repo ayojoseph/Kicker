@@ -2,7 +2,7 @@ import  React, { Component } from 'react';
 import Layout from "../../../components/Layout";
 import RequestRow from "../../../components/reqrow";
 
-import { Button, Table } from "semantic-ui-react";
+import { Button, Table, Label } from "semantic-ui-react";
 import { Link } from "../../../routes";
 import Campaign from "../../../ethereum/campaign";
 import web3 from "../../../ethereum/web3";
@@ -47,11 +47,11 @@ class RequestIndex extends Component {
                 <h3>request index</h3>
                 <Link route={`/campaigns/${this.props.address}/requests/new`}>
                     <a>
-                        <Button primary>Add Request</Button>
+                        <Button primary floated="right" style={{marginBottom : 10}}>Add Request</Button>
 
                     </a>
                 </Link>
-                <Table color='teal' inverted>
+                <Table color='grey' inverted>
                     <Header>
                         <Row>
                             <HeaderCell>ID</HeaderCell>
@@ -70,6 +70,7 @@ class RequestIndex extends Component {
                             {this.renderRow()}
                         </Body>
                 </Table>
+                <h3>Found {this.props.requestsCount} request(s)</h3>
             </Layout>
         );
     }
